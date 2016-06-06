@@ -43,3 +43,16 @@ module Audio
     p output_path + output_name
   end
 end
+
+
+module Audio
+  module Helpers
+
+    ## convert seconds to padded time
+    #   180.186 --> "00:03:00.186"
+    def Helpers.to_padded_time(time_in_seconds)
+      Time.at(time_in_seconds).utc.round(3).strftime("%H:%M:%S.%L")
+    end
+
+  end
+end
