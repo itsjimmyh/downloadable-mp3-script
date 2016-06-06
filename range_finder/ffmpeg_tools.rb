@@ -1,5 +1,4 @@
 ## ffmpeg tools
-
 # ffmpeg
 def ffmpeg
   `which ffmpeg`.chomp
@@ -21,15 +20,19 @@ def ffmpeg_split(input, output_name, start_time, end_time, run_flag=false, outpu
 end
 
 
-# merge files
+# Merge Files
+# provide an array of files for ffmpeg to merge
+# provide an output name for ffmpeg to name the file
+# decide whether you wish to see the commands or run them via passing a true || false flag
+# provide output_path for where you want your merged file to be placed
 # ffmpeg_merge(["1.mp3, 2.mp3, 3.mp3"], "exercise_1.mp3")
 def ffmpeg_merge(files, output_file_name, run_flag=false, output_path="/Users/itsjimmyh/Desktop/rf_sounds/")
-  p "in #ffmpeg_merge"
   files_to_merge = files.join("|")
 
   command = "ffmpeg -i 'concat:#{ files_to_merge}' -acodec copy #{ output_path }#{ output_file_name }.mp3"
 
   if run_flag
+    p "in #ffmpeg_merge"
     `#{ command }`
   else
     p command
