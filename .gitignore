@@ -1,0 +1,6 @@
+# Ignore local files
+.DS_store
+
+# Ignore .swp files
+*.swp
+*.swo
