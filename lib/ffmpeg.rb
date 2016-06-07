@@ -9,7 +9,6 @@ class FFmpeg
     @ffmpeg = `which ffmpeg`.chomp
   end
 
-
   def split(input, output_name, start_time, end_time, output_path)
     output_file = File.join(output_path, output_name)
 
@@ -17,6 +16,16 @@ class FFmpeg
 
     log(output_file)
   end
+
+  def merge(arr_files, output_path, output_name)
+    files_to_merge = arr_files.join("|")
+    output_file = File.join(output_path, output_name)
+
+    run("#{ @ffmpeg } -i 'concat:#{ files_to_merge }' -acodec copy #{ output_file }")
+
+    log(output_file)
+  end
+
 
   private
   def log(info)

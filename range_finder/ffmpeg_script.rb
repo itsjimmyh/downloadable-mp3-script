@@ -22,7 +22,7 @@ end
 
 ## 180.186 --> "00:03:00.186"
 def to_padded_time(time_in_seconds)
-  Time.at(time_in_seconds).utc.strftime("%H:%M:%S.%L")
+  Time.at(time_in_seconds).utc.round(3).strftime("%H:%M:%S.%L")
 end
 
 ## Helpers for generate_downloadable_mp3
