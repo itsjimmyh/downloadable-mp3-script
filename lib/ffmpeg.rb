@@ -18,7 +18,6 @@ class FFmpeg
     log(output_file)
   end
 
-
   private
   def log(info)
     if debug

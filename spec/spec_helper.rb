@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 Dir.glob('./lib/**/*.rb').each do |file|
   require File.expand_path(file)
 
