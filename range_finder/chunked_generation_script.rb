@@ -1,4 +1,7 @@
 # require './ffmpeg.rb'
+# require './exercise.rb'
+# require './range_generator.rb'
+#
 # Chunk Clips Test
 
 root_path = "/Users/itsjimmyh/Desktop/rf_sounds/"
