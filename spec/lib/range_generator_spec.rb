@@ -15,5 +15,12 @@ describe RangeGenerator do
       expect(range_generator.generate_combinations(1, 59, 11).count).to eq 1176
       expect(range_generator.generate_combinations(1, 44, 11).count).to eq 561
     end
+
+    it 'returns an array of arrays in the format of [[start_note, end_note]]' do
+      expected = [[1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]
+      actual = range_generator.generate_combinations(1, 3, 0)
+
+      expect(actual).to eq expected
+    end
   end
 end

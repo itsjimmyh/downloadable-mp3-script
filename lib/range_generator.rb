@@ -15,5 +15,4 @@ class RangeGenerator
 
     combinations
   end
-
 end
