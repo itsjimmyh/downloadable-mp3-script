@@ -3,9 +3,9 @@ class FFmpeg
   attr_reader :ffmpeg
   attr_accessor :should_run, :debug
 
-  def initialize()
-    @debug = false
-    @should_run = false
+  def initialize(should_run=false, debug=false)
+    @debug = debug
+    @should_run = should_run
     @ffmpeg = `which ffmpeg`.chomp
   end
 

@@ -9,6 +9,14 @@ describe FFmpeg do
     it 'should set ffmpeg' do
       expect(ffmpeg.ffmpeg).to match(/ffmpeg/)
     end
+
+    it 'defaults @should_run to false' do
+      expect(FFmpeg.new.should_run).to eq false
+    end
+
+    it 'defaults @debug to false' do
+      expect(FFmpeg.new.debug).to eq false
+    end
   end
 
   describe '#split' do
