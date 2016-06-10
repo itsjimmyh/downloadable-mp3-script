@@ -254,5 +254,6 @@ files = {
 combinations = range_generator.generate_combinations(1, 44, 11)
 
 # this will stitch together all the combinations
+# replace GA_INTRO, GA_CLOSING, and get finalized Example Q's
 generate_complete_clips(combinations, files)
 
