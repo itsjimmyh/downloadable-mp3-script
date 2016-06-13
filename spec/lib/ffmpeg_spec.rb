@@ -86,6 +86,20 @@ describe FFmpeg do
 
       ffmpeg.merge(files_to_merge, output_path, output_name)
     end
+  end
+
+  describe '#to_padded_time' do
+    let(:ffmpeg) { FFmpeg.new }
+
+    it 'converts seconds into padded time in the format of %H:%M:%S.%L' do
+      expect(ffmpeg.to_padded_time(120)).to eq "00:02:00.000"
+      expect(ffmpeg.to_padded_time(180.186)).to eq "00:03:00.186"
+    end
+
+    it 'rounds to 3 decimal places' do
+      expect(ffmpeg.to_padded_time(300.185)).to eq "00:05:00.185"
+      expect(ffmpeg.to_padded_time(300.186)).to eq "00:05:00.186"
+    end
 
   end
 end

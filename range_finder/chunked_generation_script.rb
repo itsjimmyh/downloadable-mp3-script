@@ -57,11 +57,6 @@ ex6 = Exercise.new(ex6_options)
 range_generator = RangeGenerator.new
 
 
-
-def to_padded_time(time_in_seconds)
-  Time.at(time_in_seconds).utc.round(3).strftime("%H:%M:%S.%L")
-end
-
 def chunk_split_clips(mp3, output_path)
   ffmpeg = FFmpeg.new(true, true)
   file = mp3.full_mp3_path
@@ -84,8 +79,8 @@ def chunk_split_clips(mp3, output_path)
       end_eqn = 0
     end
 
-    start_time = to_padded_time(start_eqn)
-    end_time = to_padded_time(end_eqn)
+    start_time = range_generator.to_padded_time(start_eqn)
+    end_time = range_generator.to_padded_time(end_eqn)
 
     ffmpeg.split(file, output_file_name, start_time, end_time, output_path)
   end
@@ -110,8 +105,8 @@ def chunk_split_reversed_clips(mp3, output_path)
       end_eqn = mp3.full_clip_length
     end
 
-    start_time = to_padded_time(start_eqn)
-    end_time = to_padded_time(end_eqn)
+    start_time = range_generator.to_padded_time(start_eqn)
+    end_time = range_generator.to_padded_time(end_eqn)
 
     ffmpeg.split(file, output_file_name, start_time, end_time, output_path)
   end
