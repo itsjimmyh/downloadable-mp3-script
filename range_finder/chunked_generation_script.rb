@@ -39,13 +39,19 @@ def hash_gen(start_offset, end_offset, single_clip_duration, full_clip_length, r
   }
 end
 
-ex1_options = hash_gen(-3, -3, 3.5, 154, ex1_path, ex1_full_mp3)
-ex2_options = hash_gen(-3, -3, 4, 176, ex2_path, ex2_full_mp3)
-ex3_options = hash_gen(-3, -3, 4, 176, ex3_path, ex3_full_mp3)
-ex4_options = hash_gen(-3, -9, 4, 176, ex4_path, ex4_full_mp3)
-ex5_options = hash_gen(-3, -9, 3, 132, ex5_path, ex5_full_mp3)
-ex6_options = hash_gen(-3, -15, 7, 308, ex6_path, ex6_full_mp3)
+# ex1_options = hash_gen(-3, -3, 3.5, 154, ex1_path, ex1_full_mp3)
+# ex2_options = hash_gen(-3, -3, 4, 176, ex2_path, ex2_full_mp3)
+# ex3_options = hash_gen(-3, -3, 4, 176, ex3_path, ex3_full_mp3)
+# ex4_options = hash_gen(-3, -9, 4, 176, ex4_path, ex4_full_mp3)
+# ex5_options = hash_gen(-3, -9, 3, 132, ex5_path, ex5_full_mp3)
+# ex6_options = hash_gen(-3, -15, 7, 308, ex6_path, ex6_full_mp3)
 
+ex1_options = hash_gen(0, -13, 3.5, 154, ex1_path, ex1_full_mp3)
+ex2_options = hash_gen(0, -2, 4, 176, ex2_path, ex2_full_mp3)
+ex3_options = hash_gen(0, -2, 4, 176, ex3_path, ex3_full_mp3)
+ex4_options = hash_gen(0, -2, 4, 176, ex4_path, ex4_full_mp3)
+ex5_options = hash_gen(0, -12, 3, 132, ex5_path, ex5_full_mp3)
+ex6_options = hash_gen(0, -2, 7, 308, ex6_path, ex6_full_mp3)
 
 ex1 = Exercise.new(ex1_options)
 ex2 = Exercise.new(ex2_options)
@@ -79,8 +85,8 @@ def chunk_split_clips(mp3, output_path)
       end_eqn = 0
     end
 
-    start_time = range_generator.to_padded_time(start_eqn)
-    end_time = range_generator.to_padded_time(end_eqn)
+    start_time = ffmpeg.to_padded_time(start_eqn)
+    end_time = ffmpeg.to_padded_time(end_eqn)
 
     ffmpeg.split(file, output_file_name, start_time, end_time, output_path)
   end
@@ -105,15 +111,16 @@ def chunk_split_reversed_clips(mp3, output_path)
       end_eqn = mp3.full_clip_length
     end
 
-    start_time = range_generator.to_padded_time(start_eqn)
-    end_time = range_generator.to_padded_time(end_eqn)
+    start_time = ffmpeg.to_padded_time(start_eqn)
+    end_time = ffmpeg.to_padded_time(end_eqn)
 
     ffmpeg.split(file, output_file_name, start_time, end_time, output_path)
   end
 end
 
-
+#########################################################
 ## Generate all combination of clips into folder structure
+#########################################################
 
 ## Reversed Clips (ex 1 & 5)
 ## generate ribbon splitting of exercise 1, all combinations with offsets of 1-44
@@ -203,28 +210,42 @@ def generate_complete_clips(combinations, files={})
     output_path = files[:output_path]
     output_name = combo.join("_") + ".mp3"
 
-    files_to_merge
-      .push(ex1_intro)
-      .push(ex1)
-      .push(ex2_intro)
-      .push(ex2)
-      .push(ex3_intro)
-      .push(ex3)
-      .push(ex4_intro)
-      .push(ex4)
-      .push(ex5_intro)
-      .push(ex5)
+    ## Exercise 1, clips 1_12, 1_13, 2_13 have no sound due to offsets, ignore them 
+    if start_range < 3 && end_range < 14
+      files_to_merge
+        .push(ex2_intro)
+        .push(ex2)
+        .push(ex3_intro)
+        .push(ex3)
+        .push(ex4_intro)
+        .push(ex4)
+        .push(ex5_intro)
+        .push(ex5)
+    else
+      files_to_merge
+        .push(ex1_intro)
+        .push(ex1)
+        .push(ex2_intro)
+        .push(ex2)
+        .push(ex3_intro)
+        .push(ex3)
+        .push(ex4_intro)
+        .push(ex4)
+        .push(ex5_intro)
+        .push(ex5)
+    end
 
-      if start_range < 5 && end_range < 16
-        files_to_merge.push(files[:ga_closing])
-        ffmpeg.merge(files_to_merge, output_path, output_name)
-      else
-        files_to_merge
-          .push(files[:ex6_intro])
-          .push(ex6)
-          .push(files[:ga_closing])
-        ffmpeg.merge(files_to_merge, output_path, output_name) 
-      end
+    ## Exercise 5, clip 1_12 has no sound due to offsets, ignore it
+    if start_range < 2 && end_range < 13
+      files_to_merge.push(files[:ga_closing])
+      ffmpeg.merge(files_to_merge, output_path, output_name)
+    else
+      files_to_merge
+        .push(files[:ex6_intro])
+        .push(ex6)
+        .push(files[:ga_closing])
+      ffmpeg.merge(files_to_merge, output_path, output_name) 
+    end
   end
 end
 
@@ -248,7 +269,9 @@ files = {
 
 combinations = range_generator.generate_combinations(1, 44, 11)
 
+#########################################################
 # this will stitch together all the combinations
+#########################################################
 # replace GA_INTRO, GA_CLOSING, and get finalized Example Q's
 generate_complete_clips(combinations, files)
 
