@@ -39,6 +39,7 @@ def hash_gen(start_offset, end_offset, single_clip_duration, full_clip_length, r
   }
 end
 
+# first round of offsets
 # ex1_options = hash_gen(-3, -3, 3.5, 154, ex1_path, ex1_full_mp3)
 # ex2_options = hash_gen(-3, -3, 4, 176, ex2_path, ex2_full_mp3)
 # ex3_options = hash_gen(-3, -3, 4, 176, ex3_path, ex3_full_mp3)
@@ -46,6 +47,7 @@ end
 # ex5_options = hash_gen(-3, -9, 3, 132, ex5_path, ex5_full_mp3)
 # ex6_options = hash_gen(-3, -15, 7, 308, ex6_path, ex6_full_mp3)
 
+# second round of new offsets
 ex1_options = hash_gen(0, -13, 3.5, 154, ex1_path, ex1_full_mp3)
 ex2_options = hash_gen(0, -2, 4, 176, ex2_path, ex2_full_mp3)
 ex3_options = hash_gen(0, -2, 4, 176, ex3_path, ex3_full_mp3)
