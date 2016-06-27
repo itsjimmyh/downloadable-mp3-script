@@ -1,4 +1,4 @@
-require 'exercise'
+require './lib/exercise'
 
 class ReversedExercise < Exercise
   attr_reader :reversed
