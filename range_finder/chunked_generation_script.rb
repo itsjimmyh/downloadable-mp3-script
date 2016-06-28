@@ -68,12 +68,22 @@ end
 
 
 # new offsets with 4 points of data
-ex1_options = hash_gen(5, 3, 3.5, 154, ex1_path, ex1_full_mp3)
+# ex1_options = hash_gen(5, 3, 3.5, 154, ex1_path, ex1_full_mp3)
+# ex2_options = hash_gen(-3, -4, 4, 176, ex2_path, ex2_full_mp3)
+# ex3_options = hash_gen(-3, -4, 4, 176, ex3_path, ex3_full_mp3)
+# ex4_options = hash_gen(-4, -10, 4, 176, ex4_path, ex4_full_mp3)
+# ex5_options = hash_gen(10, 3, 3, 132, ex5_path, ex5_full_mp3)
+# ex6_options = hash_gen(-3, -17, 7, 308, ex6_path, ex6_full_mp3)
+
+
+# new offsets with `-t` to `-to`
+ex1_options = hash_gen(5, 4, 3.5, 154, ex1_path, ex1_full_mp3)
 ex2_options = hash_gen(-3, -4, 4, 176, ex2_path, ex2_full_mp3)
 ex3_options = hash_gen(-3, -4, 4, 176, ex3_path, ex3_full_mp3)
-ex4_options = hash_gen(-4, -10, 4, 176, ex4_path, ex4_full_mp3)
-ex5_options = hash_gen(10, 3, 3, 132, ex5_path, ex5_full_mp3)
+ex4_options = hash_gen(-3, -10, 4, 176, ex4_path, ex4_full_mp3)
+ex5_options = hash_gen(10, 4, 3, 132, ex5_path, ex5_full_mp3)
 ex6_options = hash_gen(-3, -17, 7, 308, ex6_path, ex6_full_mp3)
+
 
 
 

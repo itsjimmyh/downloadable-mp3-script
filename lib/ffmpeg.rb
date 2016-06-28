@@ -12,7 +12,7 @@ class FFmpeg
   def split(input, output_name, start_time, end_time, output_path)
     output_file = File.join(output_path, output_name)
 
-    run("#{ @ffmpeg } -i #{ input } -ss #{ start_time } -t #{ end_time } -acodec copy #{ output_file }")
+    run("#{ @ffmpeg } -i #{ input } -ss #{ start_time } -to #{ end_time } -acodec copy #{ output_file }")
 
     log(output_file)
   end
