@@ -86,12 +86,30 @@ end
 
 
 # offsets with 1 note high/low
-ex1_options = hash_gen(6, 5, 3.5, 154, ex1_path, ex1_full_mp3)
-ex2_options = hash_gen(-3, -4, 4, 176, ex2_path, ex2_full_mp3)
-ex3_options = hash_gen(-3, -4, 4, 176, ex3_path, ex3_full_mp3)
-ex4_options = hash_gen(-3, -9, 4, 176, ex4_path, ex4_full_mp3)
-ex5_options = hash_gen(11, 5, 3, 132, ex5_path, ex5_full_mp3)
-ex6_options = hash_gen(-3, -16, 7, 308, ex6_path, ex6_full_mp3)
+# ex1_options = hash_gen(6, 5, 3.5, 154, ex1_path, ex1_full_mp3)
+# ex2_options = hash_gen(-3, -4, 4, 176, ex2_path, ex2_full_mp3)
+# ex3_options = hash_gen(-3, -4, 4, 176, ex3_path, ex3_full_mp3)
+# ex4_options = hash_gen(-3, -9, 4, 176, ex4_path, ex4_full_mp3)
+# ex5_options = hash_gen(11, 5, 3, 132, ex5_path, ex5_full_mp3)
+# ex6_options = hash_gen(-3, -16, 7, 308, ex6_path, ex6_full_mp3)
+
+
+# perfect +/- 3
+# ex1_options = hash_gen(4, 3, 3.5, 154, ex1_path, ex1_full_mp3)
+# ex2_options = hash_gen(-3, -4, 4, 176, ex2_path, ex2_full_mp3)
+# ex3_options = hash_gen(-3, -4, 4, 176, ex3_path, ex3_full_mp3)
+# ex4_options = hash_gen(-3, -9, 4, 176, ex4_path, ex4_full_mp3)
+# ex5_options = hash_gen(9, 3, 3, 132, ex5_path, ex5_full_mp3)
+# ex6_options = hash_gen(-3, -16, 7, 308, ex6_path, ex6_full_mp3)
+
+
+# working toward +/- 1
+ex1_options = hash_gen(6, 1, 3.5, 154, ex1_path, ex1_full_mp3)
+ex2_options = hash_gen(-1, -6, 4, 176, ex2_path, ex2_full_mp3)
+ex3_options = hash_gen(-1, -6, 4, 176, ex3_path, ex3_full_mp3)
+ex4_options = hash_gen(-1, -11, 4, 176, ex4_path, ex4_full_mp3)
+ex5_options = hash_gen(11, 1, 3, 132, ex5_path, ex5_full_mp3)
+ex6_options = hash_gen(-1, -18, 7, 308, ex6_path, ex6_full_mp3)
 
 
 ex1 = ReversedExercise.new(ex1_options)
@@ -104,12 +122,12 @@ ex6 = Exercise.new(ex6_options)
 range_generator = RangeGenerator.new
 
 
-def chunk_split_clips(mp3, output_path)
+def chunk_split_clips(mp3, output_path, combinations)
   ffmpeg = FFmpeg.new(true, true)
   file = mp3.full_mp3_path
   range_generator = RangeGenerator.new
 
-  combinations = range_generator.generate_combinations(1, 44, 11)  
+  combinations ||= range_generator.generate_combinations(1, 44, 11)  
   
   combinations.each do |combo|
     start_note, end_note = combo
@@ -196,7 +214,27 @@ def generate_complete_clips(combinations, files={})
     files_to_merge.push(files[:ga_intro])
 
     ex1_intro = files[:ex1_intro]
-    ex1 = generate_path_name(files[:ex1_path], combo) 
+    ex1_combo = combo 
+
+    # ex1 has special caps due to this being a 'warm up'
+    if end_range >= 28
+      # if a user can sing higher than C5, we cap him at A4 = 25
+      ex1_combo = [start_range, 24]
+    end
+
+    if end_range > 18 && end_range < 28
+      # if a user can't sing higher than C5, we cap him at D4
+      ex1_combo = [start_range, 17]
+    end
+
+    if start_range > 28
+      # anyone with a lowest note of 28 == not realistic
+      # we set the combo to a file we do not have, this will result in 'file does not exist, so ex1 will be skipped'
+      ex1_combo = [150, 150]
+    end
+
+
+    ex1 = generate_path_name(files[:ex1_path], ex1_combo)
 
     ex2_intro = files[:ex2_intro]
     ex2 = generate_path_name(files[:ex2_path], combo)
@@ -213,7 +251,7 @@ def generate_complete_clips(combinations, files={})
     ex6_intro = files[:ex6_intro]
     ex6 = generate_path_name(files[:ex6_path], combo)
 
-    output_path = files[:output_path]
+    output_path = files[:output_path] + start_range.to_s + "/"
     output_name = combo.join("_") + ".mp3"
  
 
@@ -274,17 +312,17 @@ files = {
   ex4_path: ex4_chunk_clips_output_path,
   ex5_path: ex5_chunk_clips_output_path,
   ex6_path: ex6_chunk_clips_output_path,
-  output_path: root_path + "full_merged_exercises/"
+  output_path: root_path + "ca_assignment/download_mp3/"
 }
 
 
 #########################################################
 ## Generate all combination of clips into folder structure
 #########################################################
-
-## Normal (unreversed clips: exercise: 2, 3, 4, 6)
+ex1_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
+# Normal (unreversed clips: exercise: 2, 3, 4, 6)
 ## Ex1
-# chunk_split_clips(ex1, ex1_chunk_clips_output_path)
+# chunk_split_clips(ex1, ex1_chunk_clips_output_path, ex1_comboes)
 ## Ex2
 # chunk_split_clips(ex2, ex2_chunk_clips_output_path)
 ## Ex3
@@ -297,10 +335,8 @@ files = {
 # chunk_split_clips(ex6, ex6_chunk_clips_output_path)
 
 # combinations = range_generator.generate_combinations(1, 44, 11)
-combinations = [[11, 34], [11, 40]]
 #########################################################
 # this will stitch together all the combinations
 #########################################################
 # replace GA_INTRO, GA_CLOSING, and get finalized Example Q's
 # generate_complete_clips(combinations, files)
-
