@@ -165,7 +165,7 @@ end
 ## Merge clips together
 
 ffmpeg = FFmpeg.new(true, true)
-ga_intro = root_path + "GLOBAL_INTRO.mp3"
+ga_intro = root_path + "/intros/RM_GLOBAL_INTRO.mp3"
 ga_closing = root_path + "GLOBAL_CLOSING.mp3"
 ex1_intro = ex1_path + "ca_exercise_1.mp3"
 ex2_intro = ex2_path + "ca_exercise_2.mp3"
@@ -312,7 +312,7 @@ files = {
   ex4_path: ex4_chunk_clips_output_path,
   ex5_path: ex5_chunk_clips_output_path,
   ex6_path: ex6_chunk_clips_output_path,
-  output_path: root_path + "ca_assignment/download_mp3/"
+  output_path: root_path + "completed_mp3s/download_mp3/"
 }
 
 
@@ -320,23 +320,39 @@ files = {
 ## Generate all combination of clips into folder structure
 #########################################################
 ex1_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
+ex2_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
+ex3_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
+ex4_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
+ex5_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
+ex6_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
 # Normal (unreversed clips: exercise: 2, 3, 4, 6)
-## Ex1
+## Ex1 - 6
 # chunk_split_clips(ex1, ex1_chunk_clips_output_path, ex1_comboes)
-## Ex2
-# chunk_split_clips(ex2, ex2_chunk_clips_output_path)
-## Ex3
-# chunk_split_clips(ex3, ex3_chunk_clips_output_path)
-## Ex4
-# chunk_split_clips(ex4, ex4_chunk_clips_output_path)
-## Ex5
-# chunk_split_clips(ex5, ex5_chunk_clips_output_path)
-## Ex6
-# chunk_split_clips(ex6, ex6_chunk_clips_output_path)
+# chunk_split_clips(ex2, ex2_chunk_clips_output_path, ex2_comboes)
+# chunk_split_clips(ex3, ex3_chunk_clips_output_path, ex3_comboes)
+# chunk_split_clips(ex4, ex4_chunk_clips_output_path, ex4_comboes)
+# chunk_split_clips(ex5, ex5_chunk_clips_output_path, ex5_comboes)
+# chunk_split_clips(ex6, ex6_chunk_clips_output_path, ex6_comboes)
 
-# combinations = range_generator.generate_combinations(1, 44, 11)
 #########################################################
 # this will stitch together all the combinations
+# run this after you've run all the examples above
 #########################################################
-# replace GA_INTRO, GA_CLOSING, and get finalized Example Q's
-# generate_complete_clips(combinations, files)
+# Instructions
+# 1. Run Ex1-6 above (#chunk_split_clips)
+# 2. Run combinations / #generate_complete_clips
+# 3. Profit
+#########################################################
+combinations = range_generator.generate_combinations(1, 44, 11)
+generate_complete_clips(combinations, files)
+
+# if you experience clips playing the intro, and nothing else
+# check your file's sample rate
+# all the exercise clips are recorded in 44,100
+# intro should also be 44,100
+# try brew install sox, and then run the command
+## Change sample rate (again two possibilities)
+# sox input.mp3 -r 8000 output.wav
+# sox input.mp3 output.wav rate 8000
+# Newer versions of SoX also support
+# sox input.mp3 output.wav rate 8k 
