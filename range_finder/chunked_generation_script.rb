@@ -3,6 +3,7 @@ require './lib/ffmpeg.rb'
 require './lib/exercise.rb'
 require './lib/reversed_exercise.rb'
 require './lib/range_generator.rb'
+require 'pry'
 # Generate Chunked Clips (ribbon cutting)
 
 root_path = "/Users/itsjimmyh/Desktop/rf_sounds/"
@@ -40,6 +41,23 @@ def hash_gen(start_offset, end_offset, single_clip_duration, full_clip_length, r
     full_mp3_path: full_mp3_path
   }
 end
+
+#########################################################
+# Renaming
+# songs are now labeled 1_12, 13 -- 44
+# we would like them to be renmaed as A2 - E6
+# a flat note on the left, and a sharp note on the right
+#########################################################
+#
+LOW_NOTES = %w(
+  stub0 A2 Bb2 B2 C3 Db3 D3 Eb3 E3 F3 Gb3 G3 Ab3 A3 Bb3 B3 C4 Db4 D4 Eb4 E4
+  F4 Gb4 Ab4 A4 Bb4 B4 C5 Db5 D5 Eb5 E5 F5 Gb5
+)
+HIGH_NOTES = %w(
+  stub0 stub1 stub2 stub3 stub4 stub5 stub6 stub7 stub8 stub9 stub10 stub11
+  G#3 A3 A#3 B3 C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5 C#5 D5 D#5 E5 F5
+  F#5 G5 G#5 A5 A#5 B5 C6 C#6 D6 D#6 E6
+)
 
 ## Inputs
 # first round of offsets
@@ -252,7 +270,14 @@ def generate_complete_clips(combinations, files={})
     ex6 = generate_path_name(files[:ex6_path], combo)
 
     output_path = files[:output_path] + start_range.to_s + "/"
-    output_name = combo.join("_") + ".mp3"
+
+    low_note = LOW_NOTES[start_range]
+    high_note = HIGH_NOTES[end_range]
+    name = "Vocal_Warm_Up_" + low_note + "-" + high_note + ".mp3"
+
+    output_name = name
+    # name them 1_12, 1_13, etc
+    # output_name = combo.join("_") + ".mp3"
  
 
     ## only push in files that exist for stitching
@@ -342,6 +367,7 @@ ex6_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
 # 1. Run Ex1-6 above (#chunk_split_clips)
 # 2. Run combinations / #generate_complete_clips
 # 3. Profit
+# 4. See notes if you encounter weird behavior
 #########################################################
 combinations = range_generator.generate_combinations(1, 44, 11)
 generate_complete_clips(combinations, files)
@@ -356,3 +382,4 @@ generate_complete_clips(combinations, files)
 # sox input.mp3 output.wav rate 8000
 # Newer versions of SoX also support
 # sox input.mp3 output.wav rate 8k 
+
