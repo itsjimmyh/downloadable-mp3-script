@@ -275,9 +275,10 @@ def generate_complete_clips(combinations, files={})
     high_note = HIGH_NOTES[end_range]
     name = "Vocal_Warm_Up_" + low_note + "-" + high_note + ".mp3"
 
-    output_name = name
+    # name them as "Vocal_Warm_Up_Ab2-G#3.mp3"
+    # output_name = name
     # name them 1_12, 1_13, etc
-    # output_name = combo.join("_") + ".mp3"
+    output_name = combo.join("_") + ".mp3"
  
 
     ## only push in files that exist for stitching
@@ -370,7 +371,7 @@ ex6_comboes = RangeGenerator.new.generate_combinations(1, 44, 0)
 # 4. See notes if you encounter weird behavior
 #########################################################
 combinations = range_generator.generate_combinations(1, 44, 11)
-generate_complete_clips(combinations, files)
+# generate_complete_clips(combinations, files)
 
 # if you experience clips playing the intro, and nothing else
 # check your file's sample rate
