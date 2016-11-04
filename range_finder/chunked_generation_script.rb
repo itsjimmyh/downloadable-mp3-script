@@ -50,13 +50,14 @@ end
 #########################################################
 #
 LOW_NOTES = %w(
-  stub0 A2 Bb2 B2 C3 Db3 D3 Eb3 E3 F3 Gb3 G3 Ab3 A3 Bb3 B3 C4 Db4 D4 Eb4 E4
-  F4 Gb4 Ab4 A4 Bb4 B4 C5 Db5 D5 Eb5 E5 F5 Gb5
+  stub0 A2 Bb2 B2 C3 Db3 D3 Eb3 E3 F3 Gb3 G3
+  Ab3 A3 Bb3 B3 C4 Db4 D4 Eb4 E4 F4 Gb4 G4
+  Ab4 A4 Bb4 B4 C5 Db5 D5 Eb5 E5 F5
 )
 HIGH_NOTES = %w(
   stub0 stub1 stub2 stub3 stub4 stub5 stub6 stub7 stub8 stub9 stub10 stub11
-  G#3 A3 A#3 B3 C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5 C#5 D5 D#5 E5 F5
-  F#5 G5 G#5 A5 A#5 B5 C6 C#6 D6 D#6 E6
+  G#3 A3 A#3 B3 C4 C#4 D4 D#4 E4 F4 F#4 G4
+  G#4 A4 A#4 B4 C5 C#5 D5 D#5 E5 F5 F#5 G5
 )
 
 ## Inputs
@@ -271,12 +272,12 @@ def generate_complete_clips(combinations, files={})
 
     output_path = files[:output_path] + start_range.to_s + "/"
 
-    low_note = LOW_NOTES[start_range]
-    high_note = HIGH_NOTES[end_range]
-    name = "Vocal_Warm_Up_" + low_note + "-" + high_note + ".mp3"
-
+    # low_note = LOW_NOTES[start_range]
+    # high_note = HIGH_NOTES[end_range]
+    # name = "Vocal_Warm_Up_" + low_note + "-" + high_note + ".mp3"
     # name them as "Vocal_Warm_Up_Ab2-G#3.mp3"
     # output_name = name
+
     # name them 1_12, 1_13, etc
     output_name = combo.join("_") + ".mp3"
  
